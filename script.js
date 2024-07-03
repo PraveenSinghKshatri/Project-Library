@@ -1,58 +1,83 @@
-const myLibrary = [];
+document.addEventListener('DOMContentLoaded', () => {
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const body = document.body;
 
-
-//Functions
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
-
-    this.info = function () {
-        return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? 'read' : 'not read yet'}`;
-    };
-}
-
-function addBookToLibrary(title, author, pages, read) {
-    const newBook = new Book(title, author, pages, read);
-    myLibrary.push(newBook);
-}
-
-
-// Function to display books on the page
-function displayBooks() {
-    const bookContainer = document.getElementById('bookContainer');
-    bookContainer.innerHTML = ''; // Clear previous content
-
-    myLibrary.forEach(book => {
-        const bookCard = document.createElement('div');
-        bookCard.classList.add('book-card');
-
-        const bookInfo = document.createElement('p');
-        bookInfo.classList.add('book-info');
-        bookInfo.textContent = `${book.title} by ${book.author}, ${book.pages} pages, ${book.read ? 'read' : 'not read yet'}`;
-
-        bookCard.appendChild(bookInfo);
-        bookContainer.appendChild(bookCard);
+    darkModeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        darkModeToggle.classList.toggle('dark-mode');
     });
-}
+});
 
+document.addEventListener('DOMContentLoaded', function () {
+    const addBookModal = document.getElementById('addBookModal');
+    const addBookForm = document.getElementById('addBookForm');
+    const bookContainer = document.getElementById('bookContainer');
 
+    // Show modal when clicking on "Add New Book" card
+    const addNewBookCard = document.querySelector('.book-card.add-new-book');
+    addNewBookCard.addEventListener('click', function () {
+        addBookModal.style.display = 'block';
+    });
 
-// Manually adding some books for demonstration
-addBookToLibrary('The Hobbit', 'J.R.R. Tolkien', 295, false);
-addBookToLibrary('1984', 'George Orwell', 328, true);
-addBookToLibrary('To Kill a Mockingbird', 'Harper Lee', 281, false);
-addBookToLibrary('Pride and Prejudice', 'Jane Austen', 279, true);
-addBookToLibrary('The Great Gatsby', 'F. Scott Fitzgerald', 180, false);
+    // Close the modal when clicking on the close button (x)
+    const closeModal = document.querySelector('.modal .close');
+    closeModal.addEventListener('click', function () {
+        addBookModal.style.display = 'none';
+    });
 
+    // Add new book when form is submitted
+    addBookForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        
+        // Get form values
+        const title = document.getElementById('title').value;
+        const author = document.getElementById('author').value;
+        const pages = document.getElementById('pages').value;
+        const coverUrl = document.getElementById('coverUrl').value;
+        const read = document.getElementById('read').checked;
 
+        // Create a new book card element
+        const newBookCard = document.createElement('div');
+        newBookCard.classList.add('book-card');
 
-//myLibrary.forEach(book => console.log(book.info()));
-for (let i = 0; i < myLibrary.length; i++) {
-    console.log(myLibrary[i].info());
-}
+        // HTML for the new book card
+        newBookCard.innerHTML = `
+            <div class="book-cover">
+                <img src="${coverUrl}" alt="Book Cover">
+            </div>
+            <div class="book-details">
+                <p class="title">${title}</p>
+                <p class="author">Author: ${author}</p>
+                <p class="pages">Pages: ${pages}</p>
+                <p class="read">Read: 
+                    <label class="toggle">
+                        <input type="checkbox" class="read-toggle" ${read ? 'checked' : ''}>
+                        <span class="slider"></span>
+                    </label>
+                </p>
+                
+                <br>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </div>
+        `;
 
+        // Append the new book card to the book container
+        bookContainer.appendChild(newBookCard);
 
-// Call the displayBooks function to initially display the books
-displayBooks();
+        // Clear form fields
+        addBookForm.reset();
+
+        // Close the modal
+        addBookModal.style.display = 'none';
+    });
+
+    // Toggle read status when checkbox is clicked
+    bookContainer.addEventListener('change', function (event) {
+        if (event.target.classList.contains('read-toggle')) {
+            const bookCard = event.target.closest('.book-card');
+            const readStatus = bookCard.querySelector('.read');
+            readStatus.textContent = `Read: ${event.target.checked ? 'Yes' : 'No'}`;
+        }
+    });
+});
