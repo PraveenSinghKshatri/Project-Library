@@ -101,6 +101,13 @@ body {
     display: none;
 }
 
+/* Dark Mode Styles for Add New Book Card */
+.dark-mode .book-card.add-new-book {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -114,28 +121,50 @@ body {
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto;
+    background-color: var(--background-color);
+    margin: 10% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
+    border-radius: var(--border-radius);
     max-width: 600px;
     position: relative;
+    box-shadow: var(--box-shadow);
+    transition: background-color var(--transition-duration), color var(--transition-duration);
+
 }
 
-.close {
+/* Dark Mode Styles for Modals */
+.dark-mode .modal-content {
+    background-color: #222;
+    color: #fff;
+}
+
+.dark-mode .modal-content input[type="text"],
+.dark-mode .modal-content input[type="url"],
+.dark-mode .modal-content input[type="number"],
+.dark-mode .modal-content input[type="checkbox"],
+.dark-mode .modal-content input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #555;
+}
+
+.dark-mode .modal-content .close,
+.dark-mode .modal-content .close-edit {
     color: #aaa;
+}
+
+.close, .close-edit {
+    color: var(--text-color);
     float: right;
     font-size: 28px;
     font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
     cursor: pointer;
 }
+
+.close:hover, .close-edit:hover {
+    color: var(--primary-color);
+}
+
 
 .book-container {
     display: flex;
@@ -147,24 +176,28 @@ body {
 }
 
 .book-card.add-new-book {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--accent-color);
     color: white;
     text-align: center;
     cursor: pointer;
     transition: background-color var(--transition-duration), color var(--transition-duration);
-
+    height: 100%; /* Ensure the card takes up the full height */
+    
 }
 
 .book-card.add-new-book:hover {
     background-color: var(--primary-color);
 }
 
-.add-icon {
+.book-card.add-new-book .add-icon {
     font-size: 48px;
     margin-bottom: var(--spacing-unit);
 }
 
-.add-icon i {
+.book-card.add-new-book .add-icon i {
     color: white;
 }
 
@@ -173,6 +206,8 @@ body {
     border: 1px solid #cccccc;
     border-radius: var(--border-radius);
     padding: var(--spacing-unit);
+    padding-top: 20px;
+    padding-bottom: 20px;
     box-shadow: var(--box-shadow);
     width: calc(33.33% - 40px); /* Adjust width for three columns in desktop view */
     max-width: 300px; /* Maximum width of book card */
@@ -191,13 +226,16 @@ body {
 
 .book-cover {
     width: 100%;
+    height: 300px; /* Fixed height for all book covers */
     text-align: center;
     margin-bottom: var(--spacing-unit);
+    overflow: hidden; /* Ensure any overflow is hidden */
 }
 
 .book-cover img {
     max-width: 100%;
-    height: auto;
+    height: 300px;
+    object-fit: cover; /* Maintain aspect ratio and cover the fixed height */
     border-radius: var(--border-radius);
 }
 
@@ -314,7 +352,7 @@ input:checked + .slider:before {
     }
 
     .book-card {
-        width: calc(50% - 40px); /* Adjust width for two columns in tablet view */
+        width: calc(50% - 50px); /* Adjust width for two columns in tablet view */
         margin: 10px; /* Adjust margin for spacing between cards */
     }
 
@@ -326,6 +364,8 @@ input:checked + .slider:before {
     .modal-content {
         width: 90%; /* Adjust width for smaller screens */
         max-width: 100%; /* Ensure it doesn't exceed viewport width */
+        margin: 15% auto;
+        padding: 15px;
     }
 }
 
@@ -351,6 +391,9 @@ input:checked + .slider:before {
     .modal-content {
         width: 90%; /* Adjust width for smaller screens */
         max-width: 100%; /* Ensure it doesn't exceed viewport width */
+        margin: 20% auto;
+        padding: 10px;
     }
+    
 }
 
