@@ -74,8 +74,45 @@ body {
     align-items: center;
 }
 
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+#search-input {
+    padding: 8px;
+    font-size: 16px;
+    width: 100%; /* Ensure the input takes up the full width available */
+    max-width: 300px; /* Set a maximum width to prevent it from getting too wide */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: none; /* Hide the search input initially */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+#search-button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust for perfect centering */
+
+}
+
+#search-button i {
+    font-size: 25px;
+    color: #fff;
+    line-height: 1; /* Ensure no extra spacing */
+}
+
 .dark-mode-toggle {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
 
 .dark-mode-toggle i {
@@ -336,6 +373,28 @@ input:checked + .slider:before {
     border: 1px solid #4a5568;
 }
 
+.copyright{
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    background: #262626;
+    font-weight: 300;
+    margin-top: 20px;
+    color: #fff;
+
+}
+
+.copyright i{
+    color: #ff004f;
+}
+
+.copyright i:hover{
+    color: #ff004f;
+    transform: scale(1.1);
+    cursor: pointer;
+
+}
+
 /* Media Queries */
 @media (max-width: 768px) {
     .navbar {
@@ -367,6 +426,23 @@ input:checked + .slider:before {
         margin: 15% auto;
         padding: 15px;
     }
+
+    .copyright{
+        font-size: 14px;
+    }
+
+    #search-input {
+        width: 80%; /* Adjust width for smaller screens */
+        max-width: none; /* Remove max-width restriction on smaller screens */
+        
+    }
+
+    #search-button {
+        right: auto; /* Ensure button stays within view */
+        left: 0;
+        margin-right: -25px;
+    }
+
 }
 
 @media (max-width: 480px) {
@@ -395,5 +471,15 @@ input:checked + .slider:before {
         padding: 10px;
     }
     
+    #search-input {
+        width: calc(100% - 20px); /* Adjust width for smaller screens */
+        font-size: 12px;
+    }
+
+    #search-button {
+        left: auto;
+        right: 10px;
+    }
+
 }
 

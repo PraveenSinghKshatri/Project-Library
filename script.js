@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
     const darkModeToggle = document.getElementById('darkModeToggle');
     const body = document.body;
 
@@ -116,6 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Event delegation for read toggle checkboxes
+    bookContainer.addEventListener('change', (event) => {
+    if (event.target.classList.contains('read-toggle')) {
+        const bookCard = event.target.closest('.book-card');
+        const readStatus = bookCard.querySelector('.read');
+        readStatus.textContent = `Read: ${event.target.checked ? 'Yes' : 'No'}`;
+    }
+    });
+
     // Edit book when form is submitted
     editBookForm.addEventListener('submit', (event) => {
         event.preventDefault();
@@ -133,6 +143,10 @@ document.addEventListener('DOMContentLoaded', () => {
         currentEditCard.querySelector('.pages').textContent = `Pages: ${pages}`;
         currentEditCard.querySelector('.book-cover img').src = coverUrl;
         currentEditCard.querySelector('.read-toggle').checked = read;
+
+        // Update the read status text
+        const readStatus = currentEditCard.querySelector('.read');
+        readStatus.textContent = `Read: ${read ? 'Yes' : 'No'}`;
 
         // Close the modal
         editModal.style.display = 'none';
@@ -204,5 +218,43 @@ document.addEventListener('DOMContentLoaded', () => {
     // Call the function to add example books when the page loads
     addExampleBooks();
 
-    
+    // Search books in library
+    const searchButton = document.getElementById('search-button');
+    const searchInput = document.getElementById('search-input');
+
+    searchButton.addEventListener('click', function() {
+        if (searchInput.style.display === 'none' || searchInput.style.display === '') {
+            searchInput.style.display = 'block';
+            searchInput.focus();
+        } else {
+            searchInput.style.display = 'none';
+        }
+    });
+
+    searchInput.addEventListener('input', function() {
+        const query = searchInput.value.toLowerCase();
+        const books = document.querySelectorAll('.book-card:not(.add-new-book)');
+        books.forEach(book => {
+            const title = book.querySelector('.title').textContent.toLowerCase();
+            const author = book.querySelector('.author').textContent.toLowerCase();
+            if (title.includes(query) || author.includes(query)) {
+                book.style.display = 'block';
+            } else {
+                book.style.display = 'none';
+            }
+        });
+    });
+
+    // Optionally, hide search input when losing focus
+    searchInput.addEventListener('blur', function() {
+        searchInput.style.display = 'none';
+    });
+ 
+
+    // JavaScript to display the range of years in the copyright notice
+    const copyrightYearElement = document.getElementById('copyright-year');
+    const startYear = 2024;
+    const currentYear = new Date().getFullYear();
+    const yearRange = (startYear === currentYear) ? currentYear : `${startYear} - ${currentYear}`;
+    copyrightYearElement.textContent = yearRange;
 });
